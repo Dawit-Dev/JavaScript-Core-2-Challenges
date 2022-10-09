@@ -2,8 +2,19 @@ function calculateWords(chapterOfABook) {
   const wordCount = {};
 
   // Write your code in here
+  if (chapterOfABook === "") return wordCount;
+  chapterOfABook.split(" ").forEach((word) => {
+    if (!wordCount[word]) {
+      wordCount[word] = 1;
+    } else {
+      wordCount[word] += 1;
+    }
+  });
+  const sortable = Object.entries(wordCount)
+    .sort(([, a], [, b]) => b - a)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 
-  return wordCount;
+  return sortable;
 }
 
 calculateWords(getDraculaChapterOne());
@@ -26,6 +37,8 @@ test("Code works for a small string", calculateWords("I love CodeYourFuture"), {
 });
 
 test(
+  //   images.unshift(images.slice(-1)[0]);
+
   "A string with, some punctuation",
   calculateWords("A string with, some punctuation"),
   { A: 1, string: 1, "with,": 1, some: 1, punctuation: 1 }
